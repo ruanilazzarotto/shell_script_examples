@@ -26,7 +26,7 @@
 # ------------------------------- VARIABLES-------------------------------------- #
 USERS="$(cat /etc/passwd | cut -d : -f 1)"
 USAGE_MESSAGE="
-  $0 - [OPTIONS]
+  $(basename $0) - [OPTIONS]
 
   -h - Help menu
   -v - Version
