@@ -17,7 +17,10 @@
 # History:
 #
 #   v1.0 14/12/2020, Ruani:
-#     -
+#     - Included options -h -v -s
+#   V1.1 15/12/2022, Ruani:
+#     - Replaced IF with CASE logic
+#     - Included basename
 # ------------------------------------------------------------------------ #
 # Tested with:
 #   bash 5.0.17
@@ -32,7 +35,7 @@ USAGE_MESSAGE="
   -v - Version
   -s - Sort output
 "
-VERSION="v1.0"
+VERSION="v1.1"
 # ------------------------------------------------------------------------ #
 
 # ------------------------------- TESTS ----------------------------------------- #
@@ -40,16 +43,11 @@ VERSION="v1.0"
 # ------------------------------------------------------------------------ #
 
 # ------------------------------- EXEC ----------------------------------------- #
-if [ "$1" = "-h" ]; then
-  echo "$USAGE_MESSAGE" && exit 0
-fi
-if [ "$1" = "-v" ]; then
-  echo "$VERSION" && exit 0
-fi
-if [ "$1" = "-s" ]; then
-  echo "$USERS" | sort && exit 0
-fi
-
-echo "$USERS"
+case "$1" in
+  -h) echo "$USAGE_MESSAGE" && exit 0    ;;
+  -v) echo "$VERSION" && exit 0          ;;
+  -s) echo "$USERS" | sort && exit 0     ;;
+   *) echo "$USERS"                      ;;
+esac
 
 # ------------------------------------------------------------------------ #
