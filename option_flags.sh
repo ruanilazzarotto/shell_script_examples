@@ -21,6 +21,9 @@
 #   V1.1 15/12/2022, Ruani:
 #     - Replaced IF with CASE logic
 #     - Included basename
+#   V1.2 18/12/2022, Ruani:
+#     - Included option -m
+#     - Included 2 flags
 # ------------------------------------------------------------------------ #
 # Tested with:
 #   bash 5.0.17
@@ -34,8 +37,11 @@ USAGE_MESSAGE="
   -h - Help menu
   -v - Version
   -s - Sort output
+  -m - Capitalize
 "
-VERSION="v1.1"
+VERSION="v1.2"
+SORT_KEY=0
+CPTZ_KEY=0
 # ------------------------------------------------------------------------ #
 
 # ------------------------------- TESTS ----------------------------------------- #
@@ -44,10 +50,14 @@ VERSION="v1.1"
 
 # ------------------------------- EXEC ----------------------------------------- #
 case "$1" in
-  -h) echo "$USAGE_MESSAGE" && exit 0    ;;
-  -v) echo "$VERSION" && exit 0          ;;
-  -s) echo "$USERS" | sort && exit 0     ;;
-   *) echo "$USERS"                      ;;
+  -h) echo "$USAGE_MESSAGE" && exit 0                   ;;
+  -v) echo "$VERSION" && exit 0                         ;;
+  -s) echo SORT_KEY=1                                   ;;
+  -m) echo CPTZ_KEY=1                                   ;;
+   *) echo "Invalid option, use -h for help." && exit 1 ;;
 esac
+
+[ $SORT_KEY -eq 1 ] && USERS=$(echo "$USERS" | sort)
+[ $CPTZ_KEY -eq 1 ] && USERS=$(echo "$USERS" | tr [a-z] [A-Z])
 
 # ------------------------------------------------------------------------ #
