@@ -24,6 +24,9 @@
 #   V1.2 18/12/2022, Ruani:
 #     - Included option -m
 #     - Included 2 flags
+#   V1.3 18/12/2022, Ruani:
+#     - Included while with shift and variable test
+#
 # ------------------------------------------------------------------------ #
 # Tested with:
 #   bash 5.0.17
@@ -39,7 +42,7 @@ USAGE_MESSAGE="
   -s - Sort output
   -m - Capitalize
 "
-VERSION="v1.2"
+VERSION="v1.3"
 SORT_KEY=0
 CPTZ_KEY=0
 # ------------------------------------------------------------------------ #
@@ -49,15 +52,20 @@ CPTZ_KEY=0
 # ------------------------------------------------------------------------ #
 
 # ------------------------------- EXEC ----------------------------------------- #
-case "$1" in
-  -h) echo "$USAGE_MESSAGE" && exit 0                   ;;
-  -v) echo "$VERSION" && exit 0                         ;;
-  -s) echo SORT_KEY=1                                   ;;
-  -m) echo CPTZ_KEY=1                                   ;;
-   *) echo "Invalid option, use -h for help." && exit 1 ;;
-esac
+while test -n "$1"
+do
+  case "$1" in
+    -h) echo "$USAGE_MESSAGE" && exit 0                   ;;
+    -v) echo "$VERSION" && exit 0                         ;;
+    -s) SORT_KEY=1                                        ;;
+    -m) CPTZ_KEY=1                                        ;;
+     *) echo "Invalid option, use -h for help." && exit 1 ;;
+  esac
+  shift
+done
 
 [ $SORT_KEY -eq 1 ] && USERS=$(echo "$USERS" | sort)
 [ $CPTZ_KEY -eq 1 ] && USERS=$(echo "$USERS" | tr [a-z] [A-Z])
 
+echo "$USERS"
 # ------------------------------------------------------------------------ #
