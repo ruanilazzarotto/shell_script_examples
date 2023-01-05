@@ -1,0 +1,5 @@
+# 0 disable, 1 enable
+CAPITALIZE=1
+
+# 0 disable, 1 enable
+USE_COLORS=1
