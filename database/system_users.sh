@@ -2,9 +2,9 @@
 #
 # system_users.sh - Users management system
 #
-# Email:      ruani.lazzarotto@gmail.com
-# Autor:      Ruani Lazzarotto
-# Manutenção: Ruani Lazzarotto
+# Email:       ruani.lazzarotto@gmail.com
+# Author:      Ruani Lazzarotto
+# Maintenance: Ruani Lazzarotto
 #
 # ----------------------------------------------------------------------------------- #
 #  This program do all the funcions of users management, like:
@@ -20,6 +20,8 @@
 
 # ------------------------------- VARIABLES ----------------------------------------- #
 DB_FILE="db_users.txt"
+SEP=:
+TEMP=temp.$$
 GREEN="\e[32;1m"
 RED="\e[31;1m"
 
@@ -47,6 +49,39 @@ ListUsers () {
         [ ! "$line" ] && continue
         PrintUser "$line"
     done < "$DB_FILE"
+}
+
+CheckUser () {
+    # -i => ignore case; -q => quiet
+    grep -i -q -c "$1$SEP" "$DB_FILE"
+}
+
+InsertUser () {
+    local name="$(echo $1 | cut -d $SEP -f 2)"
+    if CheckUser "$name"
+    then
+        echo "ERROR. User already exists!"
+    else
+        # '>>' => concat operator
+        echo "$*" >> "$DB_FILE"
+        echo "User created successfully"
+    fi
+    SortList
+}
+
+DeleteUser () {
+    CheckUser "$1" || return
+
+    grep -i -v "$1$SEP" "$DB_FILE" > "$TEMP"
+    mv "$TEMP" "$DB_FILE"
+    SortList
+    echo "User deleted successfully"
+
+}
+
+SortList () {
+    sort "$DB_FILE" > "$TEMP"
+    mv "$TEMP" "$DB_FILE"
 }
 # ----------------------------------------------------------------------------------- #
 
