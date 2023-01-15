@@ -56,6 +56,10 @@ CheckUser () {
     grep -i -q -c "$1$SEP" "$DB_FILE"
 }
 
+GetUserId () {
+    grep -i "$1$SEP" "$DB_FILE" |  cut -d $SEP -f 1
+}
+
 InsertUser () {
     local name="$(echo $1 | cut -d $SEP -f 2)"
     if CheckUser "$name"
@@ -77,6 +81,22 @@ DeleteUser () {
     SortList
     echo "User deleted successfully"
 
+}
+
+UpdateUser () {
+    local name="$(echo $1 | cut -d $SEP -f 2)"
+    if CheckItem "$name"
+    then 
+        local id="$(GetUserId $1)"
+        DeleteItem $1
+        InsertItem "$id$SEP$1$SEP$2"
+        echo "${id}$SEP$1$SEP$2"
+        echo "User updated successfully"
+        
+    else
+        echo "ERROR. User does not exists!"
+    fi
+    SortList
 }
 
 SortList () {
