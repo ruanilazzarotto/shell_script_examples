@@ -1,0 +1,8 @@
+
+
+1:coffee:1 kg
+2:rice:1 kg
+3:beans:3 kg
+4:soap:4 un
+# Items database
+
